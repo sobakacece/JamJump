@@ -22,12 +22,11 @@ public class Cell : Node2D
             var _coordinates = coordinates;
             coordinates = newCoordintaes;
             EmitSignal("CoordinateChanged", coordinates, _coordinates);
-
         }
     }
     public void Despawn()
     {
-        EmitSignal("CellDespawned", this.coordinates.x);
-        QueueFree();
+        // EmitSignal("CellDespawned", this.coordinates.x);
+        // QueueFree();
     }
 }
