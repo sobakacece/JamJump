@@ -11,11 +11,20 @@ config_version=4
 [application]
 
 config/name="Jam Jump"
+run/main_scene="res://TestLevel.tscn"
 config/icon="res://icon.png"
+
+[display]
+
+window/size/width=1280
+window/size/height=720
 
 [global]
 
 version=false
+window=false
+scren=false
+gravity=false
 
 [gui]
 
@@ -34,4 +43,5 @@ common/enable_pause_aware_picking=true
 quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
+quality/filters/use_nearest_mipmap_filter=true
 environment/default_environment="res://default_env.tres"

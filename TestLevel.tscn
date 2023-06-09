@@ -1,12 +1,26 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
-[sub_resource type="CapsuleShape2D" id=1]
+[ext_resource path="res://Character/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://ingrid/Cell.tscn" type="PackedScene" id=2]
+[ext_resource path="res://TestLevel.cs" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 300, 500 )
 
 [node name="TestLevel" type="Node2D"]
+script = ExtResource( 3 )
 
-[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+[node name="TileMap" parent="." instance=ExtResource( 2 )]
+position = Vector2( 4, 100 )
 
-[node name="Sprite" type="Sprite" parent="KinematicBody2D"]
+[node name="Player" parent="." instance=ExtResource( 1 )]
+jumpVelocity = -1000.0
+speed = 300.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
+[node name="Camera2D" type="Camera2D" parent="Player"]
+current = true
+
+[node name="Borders" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders"]
 shape = SubResource( 1 )
