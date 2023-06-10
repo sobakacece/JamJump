@@ -37,7 +37,7 @@ public class Platform : Node2D, ISpawnable
             if (!decor.Despawn())
             {
                 this.AddChild(decor);
-                int width = Mathf.FloorToInt(sprite.Texture.GetWidth() / 2) - 50;
+                int width = Mathf.FloorToInt(sprite.Texture.GetWidth() / 2) - 100;
                 decor.Position = new Vector2(rnd.Next(-width, width), decor.MySpawnHeight);
             }
         }

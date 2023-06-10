@@ -14,6 +14,10 @@ config/name="Jam Jump"
 run/main_scene="res://TestLevel.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+ScreenManager="*res://UI/ScreenManager.cs"
+
 [display]
 
 window/size/width=1280
