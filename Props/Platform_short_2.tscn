@@ -6,6 +6,7 @@
 [node name="Platform" type="StaticBody2D"]
 scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 2 )
+MyRandomPriority = 40
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
