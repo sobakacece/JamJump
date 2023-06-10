@@ -8,6 +8,7 @@ radius = 185.0
 height = 120.0
 
 [node name="Player" type="KinematicBody2D"]
+z_index = 10
 script = ExtResource( 1 )
 jumpVelocity = -600.0
 speed = 100.0

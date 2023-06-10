@@ -14,9 +14,13 @@ public class TestLevel : Node2D
     Random rnd = new Random();
     // CollisionShape2D borders;
     int randomWidth;
+    ScreenManager screenManager;
     public override void _Ready()
     {
+        
         width = GetViewportRect().Size.x - offset * 2;
+
+        screenManager = GetNode<ScreenManager>("/root/ScreenManager");
         player = GetNode<Player>("Player");
 
         RandomResourceLoader rndLoader = new RandomResourceLoader("res://Props/");
@@ -44,5 +48,13 @@ public class TestLevel : Node2D
         cell = (Platform)scene.Instance();
         AddChild(cell);
         cell.GlobalPosition = new Vector2(coordinats);
+    }
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event.IsAction("ui_cancel"))
+        {
+            screenManager.gamePaused.Visible = true;
+            GetTree().Paused = true;
+        }
     }
 }
