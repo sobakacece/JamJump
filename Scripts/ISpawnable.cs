@@ -1,20 +1,18 @@
 using Godot;
 using System;
 
-public class CoordinatesDebugLabel : Label
+public interface ISpawnable
 {
+    int MyRandomPriority { get; set; }
     // Declare member variables here. Examples:
     // private int a = 2;
     // private string b = "text";
-    Platform cell;
+
     // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-        cell = (Platform)GetParent();
-    }
+
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(float delta)
-    {
-        Text = cell.MyCoordinates.ToString();
-    }
+    //  public override void _Process(float delta)
+    //  {
+    //      
+    //  }
 }

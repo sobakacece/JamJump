@@ -17,7 +17,7 @@ public class Player : KinematicBody2D
     }
     public override void _PhysicsProcess(float delta)
     {
-        Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
+        Vector2 direction = Input.GetVector("left", "right", "ui_up", "ui_down");
 
         if (!IsOnFloor())
             velocity.y += delta * gravity;

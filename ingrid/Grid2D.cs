@@ -18,7 +18,7 @@ public class Grid2D : ColorRect
     public string cellDelegate = "res://addons/ingrid/Cell.tscn";
     #endregion
     #region  private memebers
-    List<Cell> cells = new List<Cell>();
+    List<Platform> cells = new List<Platform>();
     int rows = 0;
     int cols = 0;
     int cellSpawning = 0;
@@ -79,7 +79,7 @@ public class Grid2D : ColorRect
         if (res == null)
             return;
         PackedScene resScene = (PackedScene)res;
-        Cell cellInstance = (Cell)resScene.Instance();
+        Platform cellInstance = (Platform)resScene.Instance();
 
         cellSpawning--;
 
@@ -104,7 +104,7 @@ public class Grid2D : ColorRect
             return;
 
         UpdateOffset();
-        Cell cell = null;
+        Platform cell = null;
         int index = 0;
         for (var x = 0; x < cols; x++)
         {
@@ -127,7 +127,7 @@ public class Grid2D : ColorRect
         SortCells();
 
         int xmod = 0, ymod = -1;
-        Cell tmpCell, center = null;
+        Platform tmpCell, center = null;
         for (var i = 0; i < cells.Count; i++)
         {
             if (i % cols == 0)
@@ -161,7 +161,7 @@ public class Grid2D : ColorRect
         Vector2 limit_br = limit_tl + bounds.Size - cellSize;
 
         Vector2 swap;
-        foreach (Cell cell in cells)
+        foreach (Platform cell in cells)
         {
             if (cell == null)
                 break;
@@ -209,14 +209,14 @@ public class Grid2D : ColorRect
             SortCells();
         EmitSignal("Moved", coordinate);
     }
-    private Cell GetVisibleCell(Vector2 coordinate)
+    private Platform GetVisibleCell(Vector2 coordinate)
     {
         if (RectSize.x < 0 || coordinate.x > RectSize.x)
             return null;
         if (RectSize.y < 0 || coordinate.y > RectSize.y)
             return null;
 
-        foreach (Cell cell in cells)
+        foreach (Platform cell in cells)
         {
             if (coordinate >= cell.Position && coordinate <= cell.Position + cellSize)
                 return cell;
@@ -243,11 +243,11 @@ public class Grid2D : ColorRect
 
         if (Mathf.Abs(tmpCellAmount) > 0)
         {
-            Cell tmpCell;
+            Platform tmpCell;
             PackedScene res;
             SortCells();
 
-            Cell tl = cells.First();
+            Platform tl = cells.First();
             cellSpawning = tmpCellAmount;
 
             if (tmpCellAmount > 0)
@@ -277,7 +277,7 @@ public class Grid2D : ColorRect
                 {
                     for (int i = 0; i < rowsAmount; i++)
                     {
-                        tmpCell = (Cell)cellScene.Instance();
+                        tmpCell = (Platform)cellScene.Instance();
                         cellSpawning--;
                         AddChild(tmpCell);
                         tmpCell.MyCoordinates = new Vector2(tl.MyCoordinates.x + cols, tl.MyCoordinates.y + i) * cellUnits;
@@ -304,7 +304,7 @@ public class Grid2D : ColorRect
                 {
                     for (var i = 0; i < cols; i++)
                     {
-                        tmpCell = (Cell)cellScene.Instance();
+                        tmpCell = (Platform)cellScene.Instance();
                         cellSpawning--;
                         AddChild(tmpCell);
                         tmpCell.MyCoordinates = new Vector2(tl.MyCoordinates.y + i, tl.MyCoordinates.y + rows) * cellUnits;
@@ -330,7 +330,7 @@ public class Grid2D : ColorRect
 
     private void Clear()
     {
-        foreach (Cell cell in cells)
+        foreach (Platform cell in cells)
         {
             cells.Remove(cell);
         }

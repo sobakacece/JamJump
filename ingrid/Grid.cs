@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Grid : Container
 {
-    List<Cell> cells = new List<Cell>();
+    List<Platform> cells = new List<Platform>();
     Node2D level;
     [Export] Vector2 myCellSize = new Vector2(250, 30);
     int rows = 0, collumns = 0;
@@ -37,7 +37,7 @@ public class Grid : Container
     public void PlaceOnTop(int collumn)
     {
         GD.Print("PlaceOnTop");
-        foreach (Cell item in cells)
+        foreach (Platform item in cells)
         {
             item.SetCoordinates(new Vector2(item.MyCoordinates.y+1, collumn));
         }
@@ -46,7 +46,7 @@ public class Grid : Container
     public void SpawnCell(string path, int row, int collumn)
     {
         PackedScene cellScene = (PackedScene)ResourceLoader.Load(path);
-        Cell cell = (Cell)cellScene.Instance();
+        Platform cell = (Platform)cellScene.Instance();
         level.CallDeferred("add_child", cell);
         cell.SetCoordinates(new Vector2(row, collumn));
         cell.GlobalPosition = new Vector2((myCellSize.x + offset.x) * row + RectGlobalPosition.x, (myCellSize.y + offset.y) * collumn + RectGlobalPosition.y - GetViewport().GetVisibleRect().Size.y/2);
