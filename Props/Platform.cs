@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 public class Platform : Node2D, ISpawnable
 {
@@ -13,12 +14,15 @@ public class Platform : Node2D, ISpawnable
     [Signal] public delegate void CoordinateChanged(Vector2 newCoords, Vector2 oldCoords);
     [Signal] public delegate void CellDespawned(int collumn);
     Player player;
+    List<PackedScene> decorList;
     bool exited = false;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         player = GetNode<Player>("/root/TestLevel/Player");
         notifier.Connect("screen_exited", this, "Exited");
+        RandomResourceLoader rndLoader = new RandomResourceLoader("res://Props/Decor/");
+        decorList = rndLoader.ApplyRandom(rndLoader.MySpawnableList);
     }
     public void SetCoordinates(Vector2 newCoordintaes)
     {

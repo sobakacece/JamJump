@@ -1,8 +1,11 @@
 using Godot;
 using System;
 
-public class RandomResourceLoader : Node
+public class Decor : Sprite, ISpawnable
 {
+    int randomPriority;
+    [Export] public int MyRandomPriority { get => randomPriority; set => randomPriority = value; }
+
     // Declare member variables here. Examples:
     // private int a = 2;
     // private string b = "text";
