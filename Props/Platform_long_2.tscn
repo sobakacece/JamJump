@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Props/Platform.cs" type="Script" id=1]
+[ext_resource path="res://Art/Plattforms/PlattformLong2.png" type="Texture" id=2]
+
+[node name="Platform" type="StaticBody2D"]
+script = ExtResource( 1 )
+MyRandomPriority = 30
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, 5 )
+texture = ExtResource( 2 )
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 109.6, -21.1, 109.6, -19, 114.6, -15, 114.6, -10, 115.9, 0.1, 113.2, 0.1, 103.2, 8.1, 90.6, 8.1, 82.8, 10.1, 76.5, 10.1, -107.6, 8.1, -107.6, 6.2, -114.6, 2.2, -114.6, -1, -116.2, -7.1, -114.2, -7.1, -112.2, -16.1, -110.4, -16.1, -106.6, -19.9, -106.6, -22.1 )
+one_way_collision = true
+
+[node name="Notifier" type="VisibilityNotifier2D" parent="."]
+scale = Vector2( 11.9827, 1.7669 )

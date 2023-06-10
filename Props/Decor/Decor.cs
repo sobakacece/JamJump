@@ -9,6 +9,8 @@ public class Decor : Sprite, ISpawnable
     int chanceToSpawn;
     Random rnd = new Random();
     [Export] public int MyChanceToSpawn { get => chanceToSpawn; set => chanceToSpawn = value; }
+    [Export] private float heightSpawn = -90;
+    public float MySpawnHeight { get => heightSpawn; set => heightSpawn = value;}
 
     // Declare member variables here. Examples:
     // private int a = 2;

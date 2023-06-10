@@ -31,15 +31,14 @@ public class Platform : Node2D, ISpawnable
     }
     public void SpawnDecor()
     {
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < decorNumber; i++)
         {
             Decor decor = (Decor)decorList[rnd.Next(decorList.Count)].Instance();
             if (!decor.Despawn())
             {
                 this.AddChild(decor);
                 int width = Mathf.FloorToInt(sprite.Texture.GetWidth() / 2) - 50;
-                decor.Position = new Vector2(rnd.Next(-width, width), -100);
-
+                decor.Position = new Vector2(rnd.Next(-width, width), decor.MySpawnHeight);
             }
         }
     }
