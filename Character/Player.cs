@@ -6,6 +6,8 @@ public class Player : KinematicBody2D
     // Declare member variables here. Examples:
     // private int a = 2;
     // private string b = "text";
+    private AnimationPlayer animationPlayer;
+    private ScreenManager screenManager;
     private int gravity;
     [Export] public float jumpVelocity = -1000;
     [Export] public float speed;
@@ -14,6 +16,8 @@ public class Player : KinematicBody2D
     public override void _Ready()
     {
         gravity = (int)ProjectSettings.GetSetting("physics/2d/default_gravity") * 10;
+        animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+        screenManager = GetNode<ScreenManager>("/root/ScreenManager");
     }
     public override void _PhysicsProcess(float delta)
     {
@@ -35,6 +39,13 @@ public class Player : KinematicBody2D
         // GD.Print(velocity.y);
         MoveAndSlide(velocity, Vector2.Up);
 
+    }
+
+    public void Death()
+    {
+        animationPlayer.Play("dead");
+        screenManager.gameOver.Visible = true;
+        GetTree().Paused = true;
     }
 }
 
