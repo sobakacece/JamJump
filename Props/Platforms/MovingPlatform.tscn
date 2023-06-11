@@ -5,7 +5,7 @@
 
 [node name="MovingPlatform" type="StaticBody2D" groups=["Safe"]]
 script = ExtResource( 2 )
-MyRandomPriority = 3
+MyRandomPriority = 5
 decorNumber = 3
 
 [node name="Sprite" type="Sprite" parent="."]
