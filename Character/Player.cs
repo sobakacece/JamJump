@@ -21,7 +21,7 @@ public class Player : KinematicBody2D
     }
     public override void _PhysicsProcess(float delta)
     {
-        Vector2 direction = Input.GetVector("left", "right", "ui_up", "ui_down");
+        Vector2 direction = InputGetVector("left", "right", "ui_up", "ui_down");
 
         if (!IsOnFloor())
             velocity.y += delta * gravity;
@@ -46,6 +46,14 @@ public class Player : KinematicBody2D
         animationPlayer.Play("dead");
         screenManager.gameOver.Visible = true;
         GetTree().Paused = true;
+    }
+    public Vector2 InputGetVector(string negativeX, string positiveX, string negativeY, string positiveY, float deadzone = 0.5f)
+    {
+        var strength = new Vector2(
+            Input.GetActionStrength(positiveX) - Input.GetActionStrength(negativeX),
+            Input.GetActionStrength(positiveY) - Input.GetActionStrength(negativeY)
+        ).Normalized();
+        return strength.Length() > deadzone ? strength : Vector2.Zero;
     }
 }
 
