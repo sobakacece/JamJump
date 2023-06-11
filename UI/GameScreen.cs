@@ -6,6 +6,8 @@ public class GameScreen : CanvasLayer
     [Export] public Button btnQuit, btnRestart;
     public override void _Ready()
     {
+        btnQuit = GetNode<Button>("HBoxContainer/Quit");
+        btnRestart = GetNode<Button>("HBoxContainer/Restart");
         ConnectToNodes();
     }
     public void ConnectToNodes()
@@ -23,14 +25,14 @@ public class GameScreen : CanvasLayer
         root.RemoveChild(root.GetNode<TestLevel>("TestLevel"));
         PackedScene testLevelScene = (PackedScene)ResourceLoader.Load("res://TestLevel.tscn");
         GetTree().Root.AddChild(testLevelScene.Instance());
-        
+
         GetTree().Paused = false;
         this.Visible = false;
     }
 
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
+    //  // Called every frame. 'delta' is the elapsed time since the previous frame.
+    //  public override void _Process(float delta)
+    //  {
+    //      
+    //  }
 }

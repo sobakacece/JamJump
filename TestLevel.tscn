@@ -1,21 +1,18 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Character/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Props/Platform_short_1.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Props/Platforms/Platform_short_1.tscn" type="PackedScene" id=2]
 [ext_resource path="res://TestLevel.cs" type="Script" id=3]
 [ext_resource path="res://Background.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Camer_Player.cs" type="Script" id=5]
 [ext_resource path="res://Art/UI/BordersNoTutorial.png" type="Texture" id=6]
 [ext_resource path="res://UI/HUD.tscn" type="PackedScene" id=7]
-[ext_resource path="res://UI/GamePaused.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Props/Other/DeathArea.tscn" type="PackedScene" id=8]
 
 [node name="TestLevel" type="Node2D"]
 script = ExtResource( 3 )
 offset = 300.0
 range = 200.0
-
-[node name="GamePaused" parent="." instance=ExtResource( 8 )]
-visible = false
 
 [node name="Platform" parent="." instance=ExtResource( 2 )]
 position = Vector2( 0, 271 )
@@ -26,6 +23,8 @@ speed = 300.0
 
 [node name="ParallaxBackground" parent="." instance=ExtResource( 4 )]
 
+[node name="HUD" parent="." instance=ExtResource( 7 )]
+
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 script = ExtResource( 5 )
@@ -35,4 +34,4 @@ z_index = 10
 z_as_relative = false
 texture = ExtResource( 6 )
 
-[node name="HUD" parent="Camera2D" instance=ExtResource( 7 )]
+[node name="DeathArea" parent="Camera2D" instance=ExtResource( 8 )]

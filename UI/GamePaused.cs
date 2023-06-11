@@ -10,10 +10,8 @@ public class GamePaused : GameScreen
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        btnContinue = GetNode<Button>("HBoxContainer/Continue");
-        btnQuit = GetNode<Button>("HBoxContainer/Quit");
-        btnRestart = GetNode<Button>("HBoxContainer/Restart");
         base._Ready();
+        btnContinue = GetNode<Button>("HBoxContainer/Continue");
         btnContinue.Connect("pressed", this, "Continue");
     }
     public void Continue()

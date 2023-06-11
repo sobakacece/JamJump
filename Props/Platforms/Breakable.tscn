@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Art/Plattforms/PlattformLong3.png" type="Texture" id=1]
-[ext_resource path="res://Props/Breakable.cs" type="Script" id=2]
+[ext_resource path="res://Props/Platforms/Breakable.cs" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 96.1912, 25 )

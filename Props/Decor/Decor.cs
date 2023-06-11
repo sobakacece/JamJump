@@ -23,9 +23,14 @@ public class Decor : Sprite, ISpawnable
     }
     public bool Despawn()
     {
-        if (chanceToSpawn < rnd.Next(0,100))
+        int random = rnd.Next(0,100);
+        if (chanceToSpawn < random)
         {
             return true;
+        }
+        if (random % 2 == 0)
+        {
+            this.FlipH = true;
         }
         return false;
     }

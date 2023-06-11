@@ -23,7 +23,7 @@ public class TestLevel : Node2D
         screenManager = GetNode<ScreenManager>("/root/ScreenManager");
         player = GetNode<Player>("Player");
 
-        RandomResourceLoader rndLoader = new RandomResourceLoader("res://Props/");
+        RandomResourceLoader rndLoader = new RandomResourceLoader("res://Props/Platforms/");
         sceneList = rndLoader.ApplyRandom(rndLoader.MySpawnableList);
     }
     public override void _PhysicsProcess(float delta)
