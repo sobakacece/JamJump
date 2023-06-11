@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Props/Decor/Spring.cs" type="Script" id=1]
 [ext_resource path="res://Art/Interactives/SpringStatic.png" type="Texture" id=2]
+[ext_resource path="res://SoundFX/Spring.wav" type="AudioStream" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 37.3363
@@ -19,3 +20,6 @@ springForce = 1800.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 1 )
+
+[node name="SpringSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )

@@ -3,9 +3,11 @@ using System;
 
 public class GameScreen : CanvasLayer
 {
+    PackedScene testLevelScene;
     [Export] public Button btnQuit, btnRestart;
     public override void _Ready()
     {
+         testLevelScene = (PackedScene)ResourceLoader.Load("res://TestLevel.tscn");
         btnQuit = GetNode<Button>("HBoxContainer/Quit");
         btnRestart = GetNode<Button>("HBoxContainer/Restart");
         ConnectToNodes();
@@ -23,9 +25,8 @@ public class GameScreen : CanvasLayer
     {
         var root = GetTree().Root;
         root.RemoveChild(root.GetNode<TestLevel>("TestLevel"));
-        PackedScene testLevelScene = (PackedScene)ResourceLoader.Load("res://TestLevel.tscn");
+        
         GetTree().Root.AddChild(testLevelScene.Instance());
-
         GetTree().Paused = false;
         this.Visible = false;
     }

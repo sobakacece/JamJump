@@ -10,6 +10,7 @@
 [ext_resource path="res://Props/Other/DeathArea.tscn" type="PackedScene" id=8]
 
 [node name="TestLevel" type="Node2D"]
+process_priority = -1
 script = ExtResource( 3 )
 borderOffset = 250.0
 chunkSpawnHeight = 10000.0

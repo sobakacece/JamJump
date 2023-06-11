@@ -75,7 +75,7 @@ public class TestLevel : Node2D
         List<Platform> validatedPlatforms = new List<Platform>();
         float slice, start;
         start = -(width / 2); //slice = start Position of the line
-        slice = width / platformAmount; //slice is the block where platform spawns
+        slice = width / (platformAmount); //slice is the block where platform spawns
         for (int i = 0; i < platformAmount; i++)
         {
             scenesToSpawn.Add(sceneList[rnd.Next(0, sceneList.Count)]);
@@ -87,6 +87,7 @@ public class TestLevel : Node2D
                 breakableCount++;
             else
                 breakableCount = 0;
+				
             float spawnPoint = rnd.Next((int)(start + platformOffset), Mathf.FloorToInt(slice + start - platformOffset));
 
 

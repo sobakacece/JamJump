@@ -14,16 +14,17 @@ public class Spring : Decor
     {
         base._Ready();
         area = GetNode<Area2D>("Area2D");
-        area.Connect("body_entered", this, "OnCollision");
+        area.Connect("body_entered", this, "AddJump");
         MySpawnHeight = -50;
     }
-    public void OnCollision(Node2D body)
+    public void AddJump(Node2D body)
     {
         Player player;
         if (body is Player)
         {
            player = (Player)body;
            player.velocity = new Vector2(player.velocity.x, -springForce);
+           GetNode<AudioStreamPlayer>("SpringSound").Play();
         }
     }
 

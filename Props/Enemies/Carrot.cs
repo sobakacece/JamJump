@@ -20,7 +20,10 @@ public class Carrot : Enemy
     public void Jump()
     {
         if (IsOnFloor())
-        velocity.y = jumpVelocity;
+        {
+            GetNode<AudioStreamPlayer2D>("Jump").Play();
+            velocity.y = jumpVelocity;
+        }
     }
 
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.

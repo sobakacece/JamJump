@@ -11,6 +11,7 @@ public class ScreenManager : Node
         gamePaused = AddGlobalScreen("res://UI/GamePaused.tscn");
         gameOver = AddGlobalScreen("res://UI/GameOver.tscn");
         gameOver.Connect("visibility_changed", this, "UpdateFinalScore");
+        PauseMode = Node.PauseModeEnum.Process;
     }
     public GameScreen AddGlobalScreen(string path)
     {
@@ -25,6 +26,15 @@ public class ScreenManager : Node
     {
         GameOver gameOverScreen = (GameOver) gameOver;
         gameOverScreen.scoreLabel.Text = $"Your score is: {finalScore.ToString("000000")}";
+    }
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event.IsAction("restart"))
+        {
+            gameOver.Restart();
+            gameOver.Visible = false;
+            gamePaused.Visible = false;
+        }
     }
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
     //  public override void _Process(float delta)

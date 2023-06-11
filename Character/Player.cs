@@ -1,6 +1,7 @@
 using Godot;
 using System;
-
+using System.Linq;
+using System.Collections.Generic;
 public class Player : KinematicBody2D
 {
     // Declare member variables here. Examples:
@@ -14,6 +15,7 @@ public class Player : KinematicBody2D
     [Export] public float jumpVelocity = -1000;
     [Export] public float speed;
     public Vector2 velocity;
+    List<AudioStreamPlayer> sounds = new List<AudioStreamPlayer>();
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -22,6 +24,8 @@ public class Player : KinematicBody2D
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         screenManager = GetNode<ScreenManager>("/root/ScreenManager");
         animationPlayer.Connect("animation_finished", this, "AnimationFinished");
+
+        sounds = GetNode<Node>("Sounds").GetChildren().OfType<AudioStreamPlayer>().ToList();
     }
     public override void _PhysicsProcess(float delta)
     {
@@ -30,7 +34,10 @@ public class Player : KinematicBody2D
         if (!IsOnFloor())
             velocity.y += delta * gravity;
         else
+        {
             velocity.y = jumpVelocity;
+            sounds.Find(x => x.Name == "Jump").Play();
+        }
         if (direction.x != 0)
         {
             velocity.x = direction.x * speed;
@@ -58,6 +65,7 @@ public class Player : KinematicBody2D
 
     public void Death()
     {
+        sounds.Find(x => x.Name == "Dead").Play();
         animationPlayer.Play("dead");
     }
     public Vector2 InputGetVector(string negativeX, string positiveX, string negativeY, string positiveY, float deadzone = 0.5f)
@@ -70,7 +78,7 @@ public class Player : KinematicBody2D
     }
     private void CheckIframes()
     {
-        if (velocity.y < jumpVelocity - 100)
+        if (velocity.y < jumpVelocity - 50)
         {
             collisionShape.Disabled = true;
         }
