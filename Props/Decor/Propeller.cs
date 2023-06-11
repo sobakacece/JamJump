@@ -22,7 +22,7 @@ public class Propeller : Decor
         {
             player = (Player)body;
             player.animationPlayer.Play("propeller");
-            // player.boosted = true;
+            GetNode<AudioStreamPlayer>("Flying").Play();
             player.velocity = new Vector2(player.velocity.x, -force);
         }
     }

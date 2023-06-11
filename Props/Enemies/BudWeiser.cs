@@ -18,6 +18,7 @@ public class BudWeiser : Enemy
     public void ChangeDirection()
     {
         direction = -direction;
+        GetNode<AudioStreamPlayer2D>("Whoosh").Play();
     }
 
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -17,6 +17,7 @@ public class TestLevel : Node2D
     // CollisionShape2D borders;
     int randomWidth, breakableCount = 0;
     ScreenManager screenManager;
+    [Signal] public delegate void OnUpdatedDifficulty();
     public override void _Ready()
     {
         width = GetViewportRect().Size.x - borderOffset * 2;
@@ -37,8 +38,10 @@ public class TestLevel : Node2D
         if (platformAmountLine > 1)
             platformAmountLine--;
 
-        // if (range < 300)
-        //     range += 25;
+        if (range < 150)
+            range += 10;
+
+		EmitSignal("OnUpdatedDifficultu");
     }
     public override void _PhysicsProcess(float delta)
     {
@@ -51,20 +54,20 @@ public class TestLevel : Node2D
     }
     public void SpawnEnemy()
     {
-     
-        
-                Enemy enemy = (Enemy)enemyList[rnd.Next(0, enemyList.Count)].Instance();
-                AddChild(enemy);
-                enemy.GlobalPosition = new Vector2(rnd.Next((int)-width / 2, (int)width / 2), lineHeight - range/2);
+
+
+        Enemy enemy = (Enemy)enemyList[rnd.Next(0, enemyList.Count)].Instance();
+        AddChild(enemy);
+        enemy.GlobalPosition = new Vector2(rnd.Next((int)-width / 2, (int)width / 2), lineHeight - range / 2);
     }
     public void SpawnChunk()
     {
         while (lineHeight > -chunkSpawnHeight + limit)
         {
-			if (Mathf.FloorToInt(lineHeight) % enemieFreq == 0 && lineHeight != 0)
-			{
-				SpawnEnemy();
-			}
+            if (Mathf.FloorToInt(lineHeight) % enemieFreq == 0 && lineHeight != 0)
+            {
+                SpawnEnemy();
+            }
             SpawnLine(platformAmountLine, lineHeight);
             lineHeight -= range;
         }
@@ -87,7 +90,7 @@ public class TestLevel : Node2D
                 breakableCount++;
             else
                 breakableCount = 0;
-				
+
             float spawnPoint = rnd.Next((int)(start + platformOffset), Mathf.FloorToInt(slice + start - platformOffset));
 
 

@@ -11,7 +11,7 @@ public class Player : KinematicBody2D
     private ScreenManager screenManager;
     private CollisionShape2D collisionShape;
     private int gravity;
-    public bool boosted = false;
+    public bool boosted = false, dead = false;
     [Export] public float jumpVelocity = -1000;
     [Export] public float speed;
     public Vector2 velocity;
@@ -60,13 +60,19 @@ public class Player : KinematicBody2D
         {
             screenManager.gameOver.Visible = true;
             GetTree().Paused = true;
+            velocity = Vector2.Down * 1000;
         }
     }
 
     public void Death()
     {
-        sounds.Find(x => x.Name == "Dead").Play();
-        animationPlayer.Play("dead");
+        if (!dead)
+        {
+            sounds.Find(x => x.Name == "Dead").Play();
+            animationPlayer.Play("dead");
+            dead = true;
+        }
+
     }
     public Vector2 InputGetVector(string negativeX, string positiveX, string negativeY, string positiveY, float deadzone = 0.5f)
     {
