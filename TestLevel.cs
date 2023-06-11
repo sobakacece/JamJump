@@ -4,119 +4,119 @@ using System.Collections.Generic;
 using System.Linq;
 public class TestLevel : Node2D
 {
-    Platform cell;
-    Player player;
-    [Export] float borderOffset;
-    float width, cellSpawnPoint, lineHeight = 0;
-    [Export] float range = 100, limit = 1000, chunkSpawnHeight = 2000, platformOffset;
-    [Export] int platformAmountLine = 1;
-    PackedScene commonPlatform;
-    List<PackedScene> sceneList;
-    Random rnd = new Random();
-    // CollisionShape2D borders;
-    int randomWidth, breakableCount = 0;
-    ScreenManager screenManager;
-    public override void _Ready()
-    {
-        width = GetViewportRect().Size.x - borderOffset * 2;
+	Platform cell;
+	Player player;
+	[Export] float borderOffset;
+	float width, cellSpawnPoint, lineHeight = 0;
+	[Export] float range = 100, limit = 1000, chunkSpawnHeight = 2000, platformOffset;
+	[Export] int platformAmountLine = 1;
+	PackedScene commonPlatform;
+	List<PackedScene> sceneList;
+	Random rnd = new Random();
+	// CollisionShape2D borders;
+	int randomWidth, breakableCount = 0;
+	ScreenManager screenManager;
+	public override void _Ready()
+	{
+		width = GetViewportRect().Size.x - borderOffset * 2;
 
-        screenManager = GetNode<ScreenManager>("/root/ScreenManager");
-        player = GetNode<Player>("Player");
+		screenManager = GetNode<ScreenManager>("/root/ScreenManager");
+		player = GetNode<Player>("Player");
 
-        commonPlatform = (PackedScene)ResourceLoader.Load("res://Props/Platforms/Platform_long_1.tscn");
+		commonPlatform = (PackedScene)ResourceLoader.Load("res://Props/Platforms/Platform_long_1.tscn");
 
-        RandomResourceLoader rndLoader = new RandomResourceLoader("res://Props/Platforms/");
-        sceneList = rndLoader.ApplyRandom(rndLoader.MySpawnableList);
-    }
-    private void UpdateDifficulty()
-    {
-        if (platformAmountLine > 1)
-            platformAmountLine--;
+		RandomResourceLoader rndLoader = new RandomResourceLoader("res://Props/Platforms/");
+		sceneList = rndLoader.ApplyRandom(rndLoader.MySpawnableList);
+	}
+	private void UpdateDifficulty()
+	{
+		if (platformAmountLine > 1)
+			platformAmountLine--;
 
-        // if (range < 300)
-        //     range += 25;
-    }
-    public override void _PhysicsProcess(float delta)
-    {
-        if (player.GlobalPosition.y <= limit)
-        {
-            SpawnChunk();
-            limit -= chunkSpawnHeight;
-            UpdateDifficulty();
-        }
-    }
-    public void SpawnChunk()
-    {
-        while (lineHeight > -chunkSpawnHeight + limit)
-        {
-            SpawnLine(platformAmountLine, lineHeight);
-            lineHeight -= range;
-        }
-    }
-    public void SpawnLine(int platformAmount, float yCoords)
-    {
-        List<PackedScene> scenesToSpawn = new List<PackedScene>();
-        List<Platform> validatedPlatforms = new List<Platform>();
-        float slice, start;
-        start = -(width / 2); //slice = start Position of the line
-        slice = width / platformAmount; //slice is the block where platform spawns
-        for (int i = 0; i < platformAmount; i++)
-        {
-            scenesToSpawn.Add(sceneList[rnd.Next(0, sceneList.Count)]);
-        }
-        validatedPlatforms = PlatformValidation(scenesToSpawn);
-        foreach (Platform platform in validatedPlatforms)
-        {
-            if (platform is BreakablePlatform)
-                breakableCount++;
-            else
-                breakableCount = 0;
-            float spawnPoint = rnd.Next((int)(start + platformOffset), Mathf.FloorToInt(slice + start - platformOffset));
-
-
-            if (breakableCount > 3)
-            {
-                SpawnNode(new Vector2(spawnPoint, lineHeight), (Platform)commonPlatform.Instance());
-                breakableCount = 0;
-            }
-            else
-
-                SpawnNode(new Vector2(spawnPoint, lineHeight), platform);
-            start += slice;
-        }
-    }
-    public List<Platform> PlatformValidation(List<PackedScene> scenes)
-    {
-        List<Platform> validatedPlatforms = new List<Platform>();
-        foreach (PackedScene scene in scenes)
-        {
-            Platform platform = (Platform)scene.Instance();
-            if (platform is MovingPlatform)
-            {
-                validatedPlatforms.Clear();
-                validatedPlatforms.Add(platform);
-                break;
-            }
+		// if (range < 300)
+		//     range += 25;
+	}
+	public override void _PhysicsProcess(float delta)
+	{
+		if (player.GlobalPosition.y <= limit)
+		{
+			SpawnChunk();
+			limit -= chunkSpawnHeight;
+			UpdateDifficulty();
+		}
+	}
+	public void SpawnChunk()
+	{
+		while (lineHeight > -chunkSpawnHeight + limit)
+		{
+			SpawnLine(platformAmountLine, lineHeight);
+			lineHeight -= range;
+		}
+	}
+	public void SpawnLine(int platformAmount, float yCoords)
+	{
+		List<PackedScene> scenesToSpawn = new List<PackedScene>();
+		List<Platform> validatedPlatforms = new List<Platform>();
+		float slice, start;
+		start = -(width / 2); //slice = start Position of the line
+		slice = width / platformAmount; //slice is the block where platform spawns
+		for (int i = 0; i < platformAmount; i++)
+		{
+			scenesToSpawn.Add(sceneList[rnd.Next(0, sceneList.Count)]);
+		}
+		validatedPlatforms = PlatformValidation(scenesToSpawn);
+		foreach (Platform platform in validatedPlatforms)
+		{
+			if (platform is BreakablePlatform)
+				breakableCount++;
+			else
+				breakableCount = 0;
+			float spawnPoint = rnd.Next((int)(start + platformOffset), Mathf.FloorToInt(slice + start - platformOffset));
 
 
-            validatedPlatforms.Add(platform);
-        }
+			if (breakableCount > 3)
+			{
+				SpawnNode(new Vector2(spawnPoint, lineHeight), (Platform)commonPlatform.Instance());
+				breakableCount = 0;
+			}
+			else
+
+				SpawnNode(new Vector2(spawnPoint, lineHeight), platform);
+			start += slice;
+		}
+	}
+	public List<Platform> PlatformValidation(List<PackedScene> scenes)
+	{
+		List<Platform> validatedPlatforms = new List<Platform>();
+		foreach (PackedScene scene in scenes)
+		{
+			Platform platform = (Platform)scene.Instance();
+			if (platform is MovingPlatform)
+			{
+				validatedPlatforms.Clear();
+				validatedPlatforms.Add(platform);
+				break;
+			}
 
 
-        return validatedPlatforms;
+			validatedPlatforms.Add(platform);
+		}
 
-    }
-    public void SpawnNode(Vector2 coordinats, Platform platform)
-    {
-        AddChild(platform);
-        platform.GlobalPosition = coordinats;
-    }
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        if (@event.IsAction("ui_cancel"))
-        {
-            screenManager.gamePaused.Visible = true;
-            GetTree().Paused = true;
-        }
-    }
+
+		return validatedPlatforms;
+
+	}
+	public void SpawnNode(Vector2 coordinats, Platform platform)
+	{
+		AddChild(platform);
+		platform.GlobalPosition = coordinats;
+	}
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		if (@event.IsAction("ui_cancel"))
+		{
+			screenManager.gamePaused.Visible = true;
+			GetTree().Paused = true;
+		}
+	}
 }
