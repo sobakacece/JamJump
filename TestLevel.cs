@@ -22,21 +22,21 @@ public class TestLevel : Node2D
     {
         width = GetViewportRect().Size.x - borderOffset * 2;
 
-        screenManager = GetNode<ScreenManager>("/root/ScreenManager");
-        player = GetNode<Player>("Player");
+		screenManager = GetNode<ScreenManager>("/root/ScreenManager");
+		player = GetNode<Player>("Player");
 
-        commonPlatform = (PackedScene)ResourceLoader.Load("res://Props/Platforms/Platform_long_1.tscn");
+		commonPlatform = (PackedScene)ResourceLoader.Load("res://Props/Platforms/Platform_long_1.tscn");
 
-        RandomResourceLoader rndLoader = new RandomResourceLoader("res://Props/Platforms/");
-        sceneList = rndLoader.ApplyRandom(rndLoader.MySpawnableList);
+		RandomResourceLoader rndLoader = new RandomResourceLoader("res://Props/Platforms/");
+		sceneList = rndLoader.ApplyRandom(rndLoader.MySpawnableList);
 
-        RandomResourceLoader enemyLoader = new RandomResourceLoader("res://Props/Enemies/");
-        enemyList = rndLoader.ApplyRandom(enemyLoader.MySpawnableList);
-    }
-    private void UpdateDifficulty()
-    {
-        if (platformAmountLine > 1)
-            platformAmountLine--;
+		RandomResourceLoader enemyLoader = new RandomResourceLoader("res://Props/Enemies/");
+		enemyList = rndLoader.ApplyRandom(enemyLoader.MySpawnableList);
+	}
+	private void UpdateDifficulty()
+	{
+		if (platformAmountLine > 1)
+			platformAmountLine--;
 
         if (range < 150)
             range += 10;
@@ -94,49 +94,49 @@ public class TestLevel : Node2D
             float spawnPoint = rnd.Next((int)(start + platformOffset), Mathf.FloorToInt(slice + start - platformOffset));
 
 
-            if (breakableCount > 3)
-            {
-                SpawnNode(new Vector2(spawnPoint, lineHeight), (Platform)commonPlatform.Instance());
-                breakableCount = 0;
-            }
-            else
+			if (breakableCount > 3)
+			{
+				SpawnNode(new Vector2(spawnPoint, lineHeight), (Platform)commonPlatform.Instance());
+				breakableCount = 0;
+			}
+			else
 
-                SpawnNode(new Vector2(spawnPoint, lineHeight), platform);
-            start += slice;
-        }
-    }
-    public List<Platform> PlatformValidation(List<PackedScene> scenes)
-    {
-        List<Platform> validatedPlatforms = new List<Platform>();
-        foreach (PackedScene scene in scenes)
-        {
-            Platform platform = (Platform)scene.Instance();
-            if (platform is MovingPlatform)
-            {
-                validatedPlatforms.Clear();
-                validatedPlatforms.Add(platform);
-                break;
-            }
-
-
-            validatedPlatforms.Add(platform);
-        }
+				SpawnNode(new Vector2(spawnPoint, lineHeight), platform);
+			start += slice;
+		}
+	}
+	public List<Platform> PlatformValidation(List<PackedScene> scenes)
+	{
+		List<Platform> validatedPlatforms = new List<Platform>();
+		foreach (PackedScene scene in scenes)
+		{
+			Platform platform = (Platform)scene.Instance();
+			if (platform is MovingPlatform)
+			{
+				validatedPlatforms.Clear();
+				validatedPlatforms.Add(platform);
+				break;
+			}
 
 
-        return validatedPlatforms;
+			validatedPlatforms.Add(platform);
+		}
 
-    }
-    public void SpawnNode(Vector2 coordinats, Platform platform)
-    {
-        AddChild(platform);
-        platform.GlobalPosition = coordinats;
-    }
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        if (@event.IsAction("ui_cancel"))
-        {
-            screenManager.gamePaused.Visible = true;
-            GetTree().Paused = true;
-        }
-    }
+
+		return validatedPlatforms;
+
+	}
+	public void SpawnNode(Vector2 coordinats, Platform platform)
+	{
+		AddChild(platform);
+		platform.GlobalPosition = coordinats;
+	}
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		if (@event.IsAction("ui_cancel"))
+		{
+			screenManager.gamePaused.Visible = true;
+			GetTree().Paused = true;
+		}
+	}
 }
