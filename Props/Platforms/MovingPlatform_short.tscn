@@ -5,6 +5,7 @@
 
 [node name="Platform" type="StaticBody2D"]
 script = ExtResource( 2 )
+MyRandomPriority = 5
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )

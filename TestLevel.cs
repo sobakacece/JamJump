@@ -6,9 +6,10 @@ public class TestLevel : Node2D
 {
     Platform cell;
     Player player;
-    [Export] float offset;
-    float width, cellSpawnPoint, y = 0;
-    [Export] float range, limit = 0;
+    [Export] float borderOffset;
+    float width, cellSpawnPoint, lineHeight = 0;
+    [Export] float range, limit = 0, chunkSpawnHeight = 2000, platformOffset;
+    [Export] int platformAmountLine;
     PackedScene cellScene;
     List<PackedScene> sceneList;
     Random rnd = new Random();
@@ -17,8 +18,7 @@ public class TestLevel : Node2D
     ScreenManager screenManager;
     public override void _Ready()
     {
-
-        width = GetViewportRect().Size.x - offset * 2;
+        width = GetViewportRect().Size.x - borderOffset * 2;
 
         screenManager = GetNode<ScreenManager>("/root/ScreenManager");
         player = GetNode<Player>("Player");
@@ -26,32 +26,72 @@ public class TestLevel : Node2D
         RandomResourceLoader rndLoader = new RandomResourceLoader("res://Props/Platforms/");
         sceneList = rndLoader.ApplyRandom(rndLoader.MySpawnableList);
     }
+    private void UpdateDifficulty()
+    {
+        if (platformAmountLine > 1)
+        platformAmountLine--;
+
+        if (range < 500)
+        range+= 50;
+    }
     public override void _PhysicsProcess(float delta)
     {
         if (player.GlobalPosition.y <= limit)
         {
-            // for (int i = 0; i < 3; i ++)
-            // {
             SpawnChunk();
-
-            // }
-            limit -= 2000;
+            limit -= chunkSpawnHeight;
+            UpdateDifficulty();
         }
     }
     public void SpawnChunk()
     {
-        while (y > -3000 + limit)
+        while (lineHeight > -3000 + limit)
         {
-            SpawnNode(new Vector2(rnd.Next((int)-width / 2, (int)width / 2), y), sceneList[rnd.Next(0, sceneList.Count)]);
-            // GD.Print(y);
-            y -= range;
+            SpawnLine(platformAmountLine, lineHeight);
+            lineHeight -= range;
         }
     }
-    public void SpawnNode(Vector2 coordinats, PackedScene scene)
+    public void SpawnLine(int platformAmount, float yCoords)
     {
-        cell = (Platform)scene.Instance();
-        AddChild(cell);
-        cell.GlobalPosition = new Vector2(coordinats);
+        List<PackedScene> scenesToSpawn = new List<PackedScene>();
+        float slice, start;
+        start = -width / 2; //slice = start Position of the line
+        slice = width / platformAmount; //slice is the block where platform spawns
+        for (int i = 0; i < platformAmount; i++)
+        {
+            // SpawnNode(new Vector2(spawnPoint, yCoords), sceneList[rnd.Next(0, sceneList.Count)]);
+            scenesToSpawn.Add(sceneList[rnd.Next(0, sceneList.Count)]);
+        }
+        foreach (Platform platform in PlatformValidation(scenesToSpawn))
+        {
+            float spawnPoint = rnd.Next((int)(start + platformOffset), Mathf.FloorToInt(slice + start - platformOffset));
+            SpawnNode(new Vector2(spawnPoint, lineHeight), platform);
+            start += slice; //moving to the next block
+        }
+    }
+    public List<Platform> PlatformValidation(List<PackedScene> scenes)
+    {
+        List<Platform> validatedPlatforms = new List<Platform>();
+        foreach (PackedScene scene in scenes)
+        {
+            Platform platform = (Platform)scene.Instance();
+            if (platform is MovingPlatform)
+            {
+                validatedPlatforms.Clear();
+                validatedPlatforms.Add(platform);
+                break;
+            }
+
+            validatedPlatforms.Add(platform);
+        }
+
+
+        return validatedPlatforms;
+    }
+    public void SpawnNode(Vector2 coordinats, Platform platform)
+    {
+        AddChild(platform);
+        platform.GlobalPosition = coordinats;
     }
     public override void _UnhandledInput(InputEvent @event)
     {
