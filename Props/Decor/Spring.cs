@@ -14,10 +14,10 @@ public class Spring : Decor
     {
         base._Ready();
         area = GetNode<Area2D>("Area2D");
-        area.Connect("body_entered", this, "AddJump");
+        area.Connect("body_entered", this, "OnCollision");
         MySpawnHeight = -50;
     }
-    public void AddJump(Node2D body)
+    public void OnCollision(Node2D body)
     {
         Player player;
         if (body is Player)

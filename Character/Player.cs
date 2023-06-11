@@ -6,9 +6,10 @@ public class Player : KinematicBody2D
     // Declare member variables here. Examples:
     // private int a = 2;
     // private string b = "text";
-    private AnimationPlayer animationPlayer;
+    public AnimationPlayer animationPlayer;
     private ScreenManager screenManager;
     private int gravity;
+    public bool boosted = false;
     [Export] public float jumpVelocity = -1000;
     [Export] public float speed;
     public Vector2 velocity;
@@ -18,6 +19,7 @@ public class Player : KinematicBody2D
         gravity = (int)ProjectSettings.GetSetting("physics/2d/default_gravity") * 10;
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         screenManager = GetNode<ScreenManager>("/root/ScreenManager");
+        animationPlayer.Connect("animation_finished", this, "RevertSpeed");
     }
     public override void _PhysicsProcess(float delta)
     {
@@ -30,15 +32,22 @@ public class Player : KinematicBody2D
         if (direction.x != 0)
         {
             velocity.x = direction.x * speed;
-            // GD.Print(direction);
         }
         else
         {
             velocity.x = Mathf.MoveToward(velocity.x, 0, speed);
         }
-        // GD.Print(velocity.y);
+        // if (boosted)
+        // {
+        //     velocity.y = Mathf.MoveToward(velocity.y, -4000, 1000);
+        // }
         MoveAndSlide(velocity, Vector2.Up);
 
+    }
+    public void RevertSpeed(String anim_name)
+    {
+        // if (anim_name == "propeller")
+        // boosted = false;
     }
 
     public void Death()
@@ -55,6 +64,7 @@ public class Player : KinematicBody2D
         ).Normalized();
         return strength.Length() > deadzone ? strength : Vector2.Zero;
     }
+
 }
 
 // Called every frame. 'delta' is the elapsed time since the previous frame.
