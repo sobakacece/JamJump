@@ -38,7 +38,7 @@ public class TestLevel : Node2D
     }
     public override void _PhysicsProcess(float delta)
     {
-        if (player.GlobalPosition.y <= limit)
+        if (player.GlobalPosition.y <= limit + 1000)
         {
             SpawnChunk();
             limit -= chunkSpawnHeight;
