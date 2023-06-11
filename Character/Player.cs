@@ -8,6 +8,7 @@ public class Player : KinematicBody2D
     // private string b = "text";
     public AnimationPlayer animationPlayer;
     private ScreenManager screenManager;
+    private CollisionShape2D collisionShape;
     private int gravity;
     public bool boosted = false;
     [Export] public float jumpVelocity = -1000;
@@ -17,6 +18,7 @@ public class Player : KinematicBody2D
     public override void _Ready()
     {
         gravity = (int)ProjectSettings.GetSetting("physics/2d/default_gravity") * 10;
+        collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         screenManager = GetNode<ScreenManager>("/root/ScreenManager");
         animationPlayer.Connect("animation_finished", this, "AnimationFinished");
@@ -64,6 +66,17 @@ public class Player : KinematicBody2D
             Input.GetActionStrength(positiveY) - Input.GetActionStrength(negativeY)
         ).Normalized();
         return strength.Length() > deadzone ? strength : Vector2.Zero;
+    }
+    private void CheckIframes()
+    {
+        if (velocity.y < jumpVelocity - 200)
+        {
+            collisionShape.Disabled = true;
+        }
+        else
+        {
+            collisionShape.Disabled = false;
+        }
     }
 
 }
