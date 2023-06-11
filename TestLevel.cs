@@ -8,13 +8,13 @@ public class TestLevel : Node2D
     Player player;
     [Export] float borderOffset;
     float width, cellSpawnPoint, lineHeight = 0;
-    [Export] float range, limit = 0, chunkSpawnHeight = 2000, platformOffset;
-    [Export] int platformAmountLine;
-    PackedScene cellScene;
+    [Export] float range = 100, limit = 1000, chunkSpawnHeight = 2000, platformOffset;
+    [Export] int platformAmountLine = 1;
+    PackedScene commonPlatform;
     List<PackedScene> sceneList;
     Random rnd = new Random();
     // CollisionShape2D borders;
-    int randomWidth;
+    int randomWidth, breakableCount = 0;
     ScreenManager screenManager;
     public override void _Ready()
     {
@@ -23,16 +23,18 @@ public class TestLevel : Node2D
         screenManager = GetNode<ScreenManager>("/root/ScreenManager");
         player = GetNode<Player>("Player");
 
+        commonPlatform = (PackedScene)ResourceLoader.Load("res://Props/Platforms/Platform_long_1.tscn");
+
         RandomResourceLoader rndLoader = new RandomResourceLoader("res://Props/Platforms/");
         sceneList = rndLoader.ApplyRandom(rndLoader.MySpawnableList);
     }
     private void UpdateDifficulty()
     {
         if (platformAmountLine > 1)
-        platformAmountLine--;
+            platformAmountLine--;
 
-        if (range < 500)
-        range+= 50;
+        // if (range < 300)
+        //     range += 25;
     }
     public override void _PhysicsProcess(float delta)
     {
@@ -45,7 +47,7 @@ public class TestLevel : Node2D
     }
     public void SpawnChunk()
     {
-        while (lineHeight > -3000 + limit)
+        while (lineHeight > -chunkSpawnHeight + limit)
         {
             SpawnLine(platformAmountLine, lineHeight);
             lineHeight -= range;
@@ -54,19 +56,33 @@ public class TestLevel : Node2D
     public void SpawnLine(int platformAmount, float yCoords)
     {
         List<PackedScene> scenesToSpawn = new List<PackedScene>();
+        List<Platform> validatedPlatforms = new List<Platform>();
         float slice, start;
-        start = -width / 2; //slice = start Position of the line
+        start = -(width / 2); //slice = start Position of the line
         slice = width / platformAmount; //slice is the block where platform spawns
         for (int i = 0; i < platformAmount; i++)
         {
-            // SpawnNode(new Vector2(spawnPoint, yCoords), sceneList[rnd.Next(0, sceneList.Count)]);
             scenesToSpawn.Add(sceneList[rnd.Next(0, sceneList.Count)]);
         }
-        foreach (Platform platform in PlatformValidation(scenesToSpawn))
+        validatedPlatforms = PlatformValidation(scenesToSpawn);
+        foreach (Platform platform in validatedPlatforms)
         {
+            if (platform is BreakablePlatform)
+                breakableCount++;
+            else
+                breakableCount = 0;
             float spawnPoint = rnd.Next((int)(start + platformOffset), Mathf.FloorToInt(slice + start - platformOffset));
-            SpawnNode(new Vector2(spawnPoint, lineHeight), platform);
-            start += slice; //moving to the next block
+
+
+            if (breakableCount > 3)
+            {
+                SpawnNode(new Vector2(spawnPoint, lineHeight), (Platform)commonPlatform.Instance());
+                breakableCount = 0;
+            }
+            else
+
+                SpawnNode(new Vector2(spawnPoint, lineHeight), platform);
+            start += slice;
         }
     }
     public List<Platform> PlatformValidation(List<PackedScene> scenes)
@@ -82,11 +98,13 @@ public class TestLevel : Node2D
                 break;
             }
 
+
             validatedPlatforms.Add(platform);
         }
 
 
         return validatedPlatforms;
+
     }
     public void SpawnNode(Vector2 coordinats, Platform platform)
     {

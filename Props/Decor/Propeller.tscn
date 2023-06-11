@@ -11,7 +11,7 @@ texture = ExtResource( 1 )
 script = ExtResource( 2 )
 MyRandomPriority = 1
 MyChanceToSpawn = 5
-force = 4000.0
+force = 3000.0
 speed = 100.0
 
 [node name="Area2D" type="Area2D" parent="."]

@@ -13,8 +13,14 @@ public class MovingPlatform : Platform
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        Random rnd = new Random();
         base._Ready();
         spawnPoint = this.Position.x;
+        int i = rnd.Next(1, 2);
+        if (rnd.Next(2, 3) % 2 ==0)
+        {
+            direction = Vector2.Left;
+        }
     }
 
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
