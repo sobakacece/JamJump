@@ -17,6 +17,7 @@ config/icon="res://icon.png"
 [autoload]
 
 ScreenManager="*res://UI/ScreenManager.cs"
+SignalBus="*res://Scripts/SignalBus.cs"
 
 [display]
 

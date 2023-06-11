@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class Platform : Node2D, ISpawnable
 {
+    public SignalBus signalBus;
     [Export] int decorNumber = 5;
     public VisibilityNotifier2D notifier { get => GetNode<VisibilityNotifier2D>("Notifier"); }
     Vector2 coordinates = new Vector2(0, 0);
@@ -22,6 +23,8 @@ public class Platform : Node2D, ISpawnable
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        signalBus = GetNode<SignalBus>("/root/SignalBus");
+
         sprite = GetNode<Sprite>("Sprite");
         player = GetNode<Player>("/root/TestLevel/Player");
         notifier.Connect("screen_exited", this, "Exited");

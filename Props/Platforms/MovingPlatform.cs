@@ -17,11 +17,17 @@ public class MovingPlatform : Platform
         base._Ready();
         spawnPoint = this.Position.x;
         int i = rnd.Next(2, 5);
-        if (i % 2 ==0)
+        if (i % 2 == 0)
         {
             direction = Vector2.Left;
         }
+        signalBus.Connect("OnUpdatedDifficulty", this, "UpdateSpawnRate");
 
+    }
+    public void UpdateSpawnRate()
+    {
+        // GD.Print("Moving Platform Updated");
+        MyRandomPriority++;
     }
 
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.

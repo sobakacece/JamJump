@@ -13,6 +13,12 @@ public class SpikePlatform : Platform
         base._Ready();
         Area2D hurtBox = GetNode<Area2D>("Area2D");
         hurtBox.Connect("body_entered", this, "OnCollision");
+        signalBus.Connect("OnUpdatedDifficulty", this, "UpdateSpawnRate");
+    }
+    public void UpdateSpawnRate()
+    {
+        // GD.Print("SpikePlatformUpdate");
+        MyRandomPriority++;
     }
     public void OnCollision(Node2D body)
     {

@@ -33,7 +33,7 @@ public class Player : KinematicBody2D
 
         if (!IsOnFloor())
             velocity.y += delta * gravity;
-        else
+        else if (!dead)
         {
             velocity.y = jumpVelocity;
             sounds.Find(x => x.Name == "Jump").Play();
@@ -84,7 +84,7 @@ public class Player : KinematicBody2D
     }
     private void CheckIframes()
     {
-        if (velocity.y < jumpVelocity - 50)
+        if (velocity.y < jumpVelocity)
         {
             collisionShape.Disabled = true;
         }
