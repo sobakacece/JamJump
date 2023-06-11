@@ -3,7 +3,7 @@
 [ext_resource path="res://Art/Font/SigmarOne-Regular.ttf" type="DynamicFontData" id=1]
 
 [resource]
-size = 64
-outline_size = 4
-outline_color = Color( 0, 0, 0, 1 )
+size = 72
+outline_size = 2
+outline_color = Color( 0.494118, 0.454902, 0.219608, 1 )
 font_data = ExtResource( 1 )
