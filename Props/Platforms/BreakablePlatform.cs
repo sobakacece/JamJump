@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Breakable : Platform
+public class BreakablePlatform : Platform
 {
     // Declare member variables here. Examples:
     // private int a = 2;
@@ -13,7 +13,9 @@ public class Breakable : Platform
     [Export] string breakAnimation = "break";
     public override void _Ready()
     {
-        base._Ready();
+        player = GetNode<Player>("/root/TestLevel/Player");
+
+        notifier.Connect("screen_exited", this, "Exited");
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         timer = GetNode<Timer>("Timer");
         this.Connect("body_entered", this, "OnCollision");

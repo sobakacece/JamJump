@@ -35,3 +35,4 @@ z_as_relative = false
 texture = ExtResource( 6 )
 
 [node name="DeathArea" parent="Camera2D" instance=ExtResource( 8 )]
+position = Vector2( 7, -321 )

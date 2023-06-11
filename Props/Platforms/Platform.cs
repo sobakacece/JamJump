@@ -14,7 +14,7 @@ public class Platform : Node2D, ISpawnable
     // Grid2D grid { get => (Grid2D)GetParent(); }
     [Signal] public delegate void CoordinateChanged(Vector2 newCoords, Vector2 oldCoords);
     [Signal] public delegate void CellDespawned(int collumn);
-    Player player;
+    protected Player player;
     List<PackedScene> decorList;
     Sprite sprite;
     Random rnd = new Random();

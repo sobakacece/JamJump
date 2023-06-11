@@ -17,7 +17,7 @@ public class TestLevel : Node2D
     ScreenManager screenManager;
     public override void _Ready()
     {
-        
+
         width = GetViewportRect().Size.x - offset * 2;
 
         screenManager = GetNode<ScreenManager>("/root/ScreenManager");
@@ -30,7 +30,11 @@ public class TestLevel : Node2D
     {
         if (player.GlobalPosition.y <= limit)
         {
+            // for (int i = 0; i < 3; i ++)
+            // {
             SpawnChunk();
+
+            // }
             limit -= 2000;
         }
     }
@@ -39,7 +43,7 @@ public class TestLevel : Node2D
         while (y > -3000 + limit)
         {
             SpawnNode(new Vector2(rnd.Next((int)-width / 2, (int)width / 2), y), sceneList[rnd.Next(0, sceneList.Count)]);
-            GD.Print(y);
+            // GD.Print(y);
             y -= range;
         }
     }

@@ -19,7 +19,7 @@ public class Player : KinematicBody2D
         gravity = (int)ProjectSettings.GetSetting("physics/2d/default_gravity") * 10;
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         screenManager = GetNode<ScreenManager>("/root/ScreenManager");
-        animationPlayer.Connect("animation_finished", this, "RevertSpeed");
+        animationPlayer.Connect("animation_finished", this, "AnimationFinished");
     }
     public override void _PhysicsProcess(float delta)
     {
@@ -44,17 +44,18 @@ public class Player : KinematicBody2D
         MoveAndSlide(velocity, Vector2.Up);
 
     }
-    public void RevertSpeed(String anim_name)
+    public void AnimationFinished(String anim_name)
     {
-        // if (anim_name == "propeller")
-        // boosted = false;
+        if (anim_name == "dead")
+        {
+            screenManager.gameOver.Visible = true;
+            GetTree().Paused = true;
+        }
     }
 
     public void Death()
     {
         animationPlayer.Play("dead");
-        screenManager.gameOver.Visible = true;
-        GetTree().Paused = true;
     }
     public Vector2 InputGetVector(string negativeX, string positiveX, string negativeY, string positiveY, float deadzone = 0.5f)
     {
