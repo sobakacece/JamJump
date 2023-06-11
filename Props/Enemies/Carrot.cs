@@ -26,6 +26,7 @@ public class Carrot : Enemy
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _PhysicsProcess(float delta)
     {
+        base._PhysicsProcess(delta);
         if (!IsOnFloor())
         {
             velocity.y += delta * gravity;

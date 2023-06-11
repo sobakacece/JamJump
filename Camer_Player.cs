@@ -22,11 +22,11 @@ public class Camer_Player : Camera2D
         lowBound = highBound + 300;
         if (player.Position.y < lowBound && player.Position.y > highBound) // if player is higher than lowerBound
         {
-            this.GlobalPosition = new Vector2(0, player.Position.y);
+            this.GlobalPosition = new Vector2(0, player.Position.y - 100);
         }
         else if (player.Position.y < highBound)
         {
-            highBound = player.Position.y;
+            highBound = player.Position.y - 100;
             this.GlobalPosition = new Vector2(0, highBound);
         }
 

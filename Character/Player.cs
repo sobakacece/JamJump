@@ -43,6 +43,7 @@ public class Player : KinematicBody2D
         // {
         //     velocity.y = Mathf.MoveToward(velocity.y, -4000, 1000);
         // }
+        CheckIframes();
         MoveAndSlide(velocity, Vector2.Up);
 
     }
@@ -69,7 +70,7 @@ public class Player : KinematicBody2D
     }
     private void CheckIframes()
     {
-        if (velocity.y < jumpVelocity - 200)
+        if (velocity.y < jumpVelocity - 100)
         {
             collisionShape.Disabled = true;
         }
